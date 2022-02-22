@@ -85,5 +85,39 @@ grid.set_color(Color::red);
 
 win.attach(grid);
 
+//képek
+Image nagyrendor1{Point(0,200),"rendorauto200.jpg"};
+win.attach(nagyrendor1);
+
+Image nagyrendor2{Point(0,400),"rendorauto200.jpg"};
+win.attach(nagyrendor2);
+
+Image nagyrendor3{Point(0,600),"rendorauto200.jpg"};
+win.attach(nagyrendor3);
+
+Image kisrendor{Point(0,0),"rendorauto100.jpg"};
+win.attach(kisrendor);
+
+Image fiat{Point(200,0),"fiat.jpg"};
+win.attach(fiat);
+//képek vége
+
+x=0;
+y=0;
+
+for(int i=0;i<13;i++)
+{
+if(y%2==0)
+{
+y=y+1;
 win.wait_for_button(); 
+kisrendor.move(100,0);
+}else
+{
+win.wait_for_button(); 
+fiat.move(100,0);
+y=y+1;
+}
+win.set_label("Debreceni Forma1");
+}
 }
