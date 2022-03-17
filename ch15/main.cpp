@@ -3,6 +3,7 @@
 */
 #include "../GUI/Simple_window.h" 
 #include "../GUI/Graph.h"
+#include <vector>
 
 using namespace Graph_lib;
 
@@ -24,12 +25,64 @@ public:
 		age=kor;
 	}
 	
-	void kiiradat()
+	void kiiradat() const
 	{
 		std::cout<<"Nev: "<<name<<std::endl;
 		std::cout<<"Kor: "<<age<<std::endl;
 	}
+	
+	string getname() const
+	{
+		return name;
+	}
+	
+	int getage() const
+	{
+		return age;
+	} 
+	
+	void setname(string nev)
+	{
+		if(nev.find(";")>-1 || nev.find("[")>-1 || nev.find("]")>-1 || nev.find("*")>-1 || nev.find("&")>-1 || nev.find("^")>-1 || nev.find("%")>-1 || nev.find("$")>-1)error("invalid name");
+		name=nev;
+	}
+	
+	void setage(int kor)
+	{
+		if(kor<0 || kor>150) error("Hibas kormegadas");
+		age=kor;
+	}
+	
+	void beolvasadat()
+	{	
+		string nev="Peti";
+		int kor=27;
+		cin>>nev;
+		cin>>kor;
+		setname(nev);
+		setage(kor);		
+	}
 };
+
+ostream& operator<<(ostream& os, const person& ember)
+{
+	os << "Nev: " << ember.getname() << std::endl;
+	os << "Kor: " << ember.getage();
+	return os;
+} 
+
+istream& operator>>(istream& is, person& ember)
+{	
+	string a="0";
+	int b=0;
+	cin>>a;
+	cin>>b;
+	ember.setname(a); 
+	ember.setage(b);
+//	is >> ember.name(); 
+//	is >> ember.age();
+	return is;
+}
 
 int main()
 {
@@ -73,7 +126,26 @@ int main()
 	
 	//structur
 	person ember("Goofy",63);
+	std::cout<<"Függvénnyel:"<<std::endl;
 	ember.kiiradat();
+	std::cout<<std::endl<<"Operátorral:"<<std::endl;
+	std::cout<<ember<<std::endl<<std::endl;
+	
+	std::cout<<"Függvénnyel:"<<std::endl;
+	string neve="Peti";
+	int kora=27;
+	std::cout<<"Szóközzel elválasztva adj meg egy nevet és egy kort. Pl: Peti 27"<<std::endl;
+	ember.beolvasadat();
+	ember.kiiradat();
+	
+	std::cout<<std::endl<<"Operátorral:"<<std::endl;
+	std::cout<<"Szóközzel elválasztva adj meg egy nevet és egy kort. Pl: Peti 27"<<std::endl;
+	std::cin>>ember;
+	std::cout<<ember<<std::endl<<std::endl;
+	
+	std::cout<<"Vektoros beolvasások:"<<std::endl;
+	vector<person>emberek;
+	emberek.push_back(person("sa",21));
 
 	win.wait_for_button();
 	return 0;
