@@ -2,12 +2,19 @@
 #include <list>
 #include <array>
 #include <iostream>
+#include <iterator>
+#include <bits/stdc++.h>
 
-struct Copy
 template<typename it1, typename it2>
-struct copy
+it2 masolas(it1 t1,it1 t2,it2 t3)
 {
-
+	while(t1!=t2)
+	{
+		*t3=*t1;
+		t1++;
+		t3++;
+	}
+	return t3; 
 }
 
 int main()
@@ -35,10 +42,46 @@ int main()
         tomb[i]=tomb[i]+2;
         vectorarray[i]=vectorarray[i]+3;
     }
+    
+    
     for(it=listarray.begin();it!=listarray.end();it++)
     {
         *it=*it+5;
-        std::cout<<*it<<std::endl;
+    }
+    
+    //Nem lehet pl. vektorból arraybe másolni, mert nem egyezik meg a típusa. Max akkor lehetne, ha külön függvényt írnánk rá.
+    //De azonos típus másolására működik:
+    
+    masolas(listarray.begin(),listarray.end(),listarray2.begin());
+    
+    std::cout<<"Masolt listaelemek:"<<std::endl;	
+    it=listarray2.begin();
+    while(it!=listarray2.end())
+    {
+    	std::cout<<*it<<std::endl;
+    	it++;
+    }
+    std::cout<<std::endl;
+    
+    std::vector<int>::iterator vecit;
+    int elem=3;
+    vecit=std::find(begin(vectorarray),end(vectorarray),elem); //#include <bits/stdc++.h> kell hozzá
+    if(vecit!=vectorarray.end())
+    {
+    	std::cout<<"Az elem "<<elem<<" a(z) "<<distance(vecit,vectorarray.begin())<<" pozicioban talalhato."<<std::endl; 
+    }else
+    {
+    	std::cout<<"Az elem "<<elem<<" nem találhato."<<std::endl;
+    }
+    
+    elem=27;
+    vecit=std::find(begin(vectorarray),end(vectorarray),elem); //#include <bits/stdc++.h> kell hozzá
+    if(vecit!=vectorarray.end())
+    {
+    	std::cout<<"Az elem "<<elem<<" a(z) "<<distance(vecit,vectorarray.begin())<<" pozicioban talalhato."<<std::endl; 
+    }else
+    {
+    	std::cout<<"Az elem "<<elem<<" nem találhato."<<std::endl;
     }
 }
 
