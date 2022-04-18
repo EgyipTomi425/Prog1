@@ -55,42 +55,86 @@ std::ostream& operator<<(std::ostream& os, const std::vector<t>& vektor)
 	return os;
 }
 
-void readfile(std::vector<item>& items)
+template<typename pointer>
+ void readfile(pointer& mutato)
 {
 	std::ifstream fbe;
 	fbe.open("itemlist.txt");
-
 	while (!fbe.eof())
 	{
 		std::string nev;
-		int id;
+		int iid;
 		double ertek;
 
 		fbe >> nev;
-		fbe >> id;
+		fbe >> iid;
 		fbe >> ertek;
 
-		items.push_back(item(nev, id, ertek));
+		mutato->push_back(item(nev, iid, ertek));
 	}
-	items.pop_back();
+	mutato->pop_back();
 	fbe.close();
 }
-
+ 
 struct namesort
 {
-	bool operator()(const item& item1, const item& item2) const
+	bool operator()(const item & item1, const item & item2) const
 	{
-		return false;
 		return bool(item1.getname() < item2.getname());
 	}
 };
 
-int main()
+struct iidsort
+{
+	bool operator()(const item& item1, const item& item2) const
+	{
+		return bool(item1.getiid() < item2.getiid());
+	}
+};
+
+struct valuesort
+{
+	bool operator()(const item& item1, const item& item2) const
+	{
+		return bool(item1.getvalue() < item2.getvalue());
+	}
+};
+
+void feladat1vector()
 {
 	std::vector<item>items;
-	readfile(items);
+	auto vecpointer = &items;
+	readfile(vecpointer);
 	std::cout << "vector beolvasva:" << std::endl << items << std::endl;
 
 	std::sort(items.begin(), items.end(), namesort());
 	std::cout << "vector sort by name:" << std::endl << items << std::endl;
+	std::sort(items.begin(), items.end(), iidsort());
+	std::cout << "vector sort by iid:" << std::endl << items << std::endl;
+	std::sort(items.begin(), items.end(), valuesort());
+	std::cout << "vector sort by value:" << std::endl << items << std::endl;
+
+	vecpointer->push_back(item("horse shoe", 99, 12.34));
+	items.push_back(item("Canon S400", 9988, 499.95));
+	std::cout << items[10] << std::endl;
+	std::cout << items[11] << std::endl;
+	items.pop_back();
+	vecpointer->pop_back();
+	std::cout << std::endl;
+	std::cout << std::endl;
+}
+
+void feladat1lista()
+{
+	std::list<item>items;
+	auto listpointer = &items;
+	readfile(listpointer);
+}
+
+int main()
+{
+	feladat1vector();
+	feladat1lista();
+
+	return 0;
 }
