@@ -55,6 +55,16 @@ std::ostream& operator<<(std::ostream& os, const std::vector<t>& vektor)
 	return os;
 }
 
+template<class t>
+std::ostream& operator<<(std::ostream& os, const std::list<t>& lista)
+{
+	for (auto it=lista.begin(); it != lista.end(); it++)
+	{
+		os << *it << std::endl;
+	}
+	return os;
+}
+
 template<typename pointer>
  void readfile(pointer& mutato)
 {
@@ -126,9 +136,32 @@ void feladat1vector()
 
 void feladat1lista()
 {
-	std::list<item>items;
+    std::list<item>items;
 	auto listpointer = &items;
 	readfile(listpointer);
+	std::cout << "lista beolvasva:" << std::endl << items << std::endl;
+
+	items.sort(namesort());
+	std::cout << "lista sort by name:" << std::endl << items << std::endl;
+	items.sort(iidsort());
+	std::cout << "lista sort by iid:" << std::endl << items << std::endl;
+	items.sort(valuesort());
+	std::cout << "lista sort by value:" << std::endl << items << std::endl;
+
+    listpointer->push_back(item("horse shoe", 99, 12.34));
+	std::list<item>::iterator listit;
+	listit = items.end();
+	listit--;
+	std::cout << *listit << std::endl;
+
+	items.push_back(item("Canon S400", 9988, 499.95));
+	listit++;
+	std::cout << *listit << std::endl;
+	
+	items.pop_back();
+	listpointer->pop_back();
+	std::cout << std::endl;
+	std::cout << std::endl;
 }
 
 int main()
