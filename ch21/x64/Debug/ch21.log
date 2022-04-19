@@ -1,2 +1,10 @@
 ﻿  ch21.cpp
+C:\Users\tomi0\Documents\c++\github\Prog1\ch21\ch21.cpp(156,9): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\tomi0\Documents\c++\github\Prog1\ch21\ch21.cpp(302): message : see reference to function template instantiation 'it2 masolas<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,std::_Vector_iterator<std::_Vector_val<std::_Simple_types<int>>>>(it1,it1,it2)' being compiled
+          with
+          [
+              it2=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<int>>>,
+              _Ty=double,
+              it1=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<double>>>
+          ]
   ch21.vcxproj -> C:\Users\tomi0\Documents\c++\github\Prog1\ch21\x64\Debug\ch21.exe

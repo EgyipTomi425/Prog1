@@ -87,8 +87,8 @@ std::istream& operator>>(std::istream& is, std::map<t1, t2>& m)
 	return is;
 }
 
-template<typename pointer>
- void readfile(pointer& mutato)
+template<typename pointer, typename t = item>
+void readfile(pointer& mutato,t type1)
 {
 	std::ifstream fbe;
 	fbe.open("itemlist.txt");
@@ -102,12 +102,28 @@ template<typename pointer>
 		fbe >> iid;
 		fbe >> ertek;
 
-		mutato->push_back(item(nev, iid, ertek));
+		mutato->push_back(t(nev, iid, ertek));
 	}
 	mutato->pop_back();
 	fbe.close();
 }
  
+template<typename pointer,typename t=double>
+void readfileelement(pointer& mutato,t type1=0.0)
+{
+	std::ifstream fbe;
+	fbe.open("elements.txt");
+	while (!fbe.eof())
+	{
+
+		fbe >> type1;
+
+		mutato->push_back(type1);
+	}
+	mutato->pop_back();
+	fbe.close();
+}
+
 struct namesort
 {
 	bool operator()(const item & item1, const item & item2) const
@@ -132,6 +148,32 @@ struct valuesort
 	}
 };
 
+template<typename it1, typename it2>
+it2 masolas(it1 t1, it1 t2, it2 t3)
+{
+	while (t1 != t2)
+	{
+		*t3 = *t1;
+		t1++;
+		t3++;
+	}
+	return t3;
+}
+
+template<typename it,typename t,typename p>
+t copyif(it first, it last, t result, p pred)
+{
+	while (first != last)
+	{
+		if (pred(*first))
+		{
+			*result++ = *first;
+		}
+		first++;
+	}
+	return result;
+}
+
 template<typename t1, typename t2>
 void copyswap(const std::map<t1,t2>& m1, std::map<t2,t1>& m2)
 {
@@ -145,7 +187,7 @@ void feladat1vector()
 {
 	std::vector<item>items;
 	auto vecpointer = &items;
-	readfile(vecpointer);
+	readfile(vecpointer,item("a",1,1));
 	std::cout << "vector beolvasva:" << std::endl << items << std::endl;
 
 	std::sort(items.begin(), items.end(), namesort());
@@ -169,7 +211,7 @@ void feladat1lista()
 {
     std::list<item>items;
 	auto listpointer = &items;
-	readfile(listpointer);
+	readfile(listpointer,item("a",1,1));
 	std::cout << "lista beolvasva:" << std::endl << items << std::endl;
 
 	items.sort(namesort());
@@ -247,11 +289,54 @@ void feladat2()
 	std::cout << std::endl;
 }
 
+void feladat3()
+{
+	std::vector<double>vektor;
+	auto vecpointer = &vektor;
+	readfileelement(vecpointer);
+	std::cout << "Beolvasott vektorelemek:" << std::endl;
+	std::cout << vektor << std::endl;
+
+	std::vector<int>intvektor(vektor.size());
+	//std::copy(vektor.begin(), vektor.end(), intvektor.begin()); //nem mukodik, misztikus
+	masolas(begin(vektor), end(vektor), begin(intvektor));
+	std::cout << "masolt vektorelemek (converted to int):" << std::endl << intvektor << std::endl;
+
+	double sum1 = 0;
+	for (const auto p : vektor)
+	{
+		sum1 += p;
+	}
+	std::cout << "sum of the (double) elements: " << sum1 << std::endl;
+	std::cout << std::endl;
+	double sum2 = 0;
+	for (const auto p : intvektor)
+	{
+		sum2 += p;
+	}
+	std::cout << "sum of the (int) elements: " << sum2 << std::endl << std::endl;;
+	std::cout << "difference between the sum of elements: " << abs(sum1 - sum2) << std::endl << std::endl;
+	std::cout << "AVG of the (double) elements: " << sum1 / vektor.size() << std::endl << std::endl;
+
+	std::reverse(vektor.begin(), vektor.end());
+	std::cout << "reserved vector (double):" << std::endl;
+	std::cout << vektor << std::endl;
+
+	std::vector<double>copyvector(vektor.size());
+
+	static double avg = sum1 / vektor.size(); //FONTOS,hogy static, mert különben nem használható
+	copyif(vektor.begin(), vektor.end(), copyvector.begin(), [](double x) -> bool { return x < avg; });
+	std::cout << "Masolt elemes vektor:" << std::endl << copyvector << std::endl;
+	sort(copyvector.begin(), copyvector.end());
+	std::cout << "Masolt elemes vektor after sort:" << std::endl << copyvector;
+}
+
 int main()
 {
 	feladat1vector();
 	feladat1lista();
 	feladat2();
+	feladat3();
 
 	return 0;
 }
