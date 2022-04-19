@@ -8,6 +8,7 @@
 #include <string>
 #include <fstream>
 #include <cstdlib> 
+#include <map>
 
 struct item
 {
@@ -65,6 +66,27 @@ std::ostream& operator<<(std::ostream& os, const std::list<t>& lista)
 	return os;
 }
 
+template<typename t1, typename t2>
+std::ostream& operator<<(std::ostream& os, const std::map<t1, t2>& m)
+{
+	for (const auto& p : m)
+	{
+		os << "{ " << p.first << ", " << p.second << " }" << std::endl;
+	}
+	return os;
+}
+
+template<typename t1, typename t2>
+std::istream& operator>>(std::istream& is, std::map<t1, t2>& m)
+{
+	t1 type1;
+	std::cin >> type1;
+	t2 type2;
+	std::cin >> type2;
+	m.insert({ type1,type2 });
+	return is;
+}
+
 template<typename pointer>
  void readfile(pointer& mutato)
 {
@@ -109,6 +131,15 @@ struct valuesort
 		return bool(item1.getvalue() < item2.getvalue());
 	}
 };
+
+template<typename t1, typename t2>
+void copyswap(const std::map<t1,t2>& m1, std::map<t2,t1>& m2)
+{
+	for (const auto& p : m1)
+	{
+		m2.insert({ p.second,p.first });
+	}
+}
 
 void feladat1vector()
 {
@@ -162,12 +193,65 @@ void feladat1lista()
 	listpointer->pop_back();
 	std::cout << std::endl;
 	std::cout << std::endl;
+	std::cout << std::endl;
+}
+
+void feladat2()
+{
+	std::map<std::string, int>msi;
+	msi.insert({"Gabor", 2});
+	msi.insert({"Anna", 4});
+	msi.insert({"Laci", 8});
+	msi.insert({"Janos", 12});
+	msi.insert({"Benedek", 21});
+	msi.insert({"Hanna", 74});
+	msi.insert({"Gabriella", 102});
+	msi.insert({"Peter", 1});
+	msi.insert({"Nandor", 67});
+	msi.insert({"Bence", 7});
+	std::cout << "Using map:" << std::endl;
+	std::cout << msi << std::endl;
+	msi.erase({ "Gabor" });
+	msi.erase({ "Anna" });
+	msi.erase({ "Laci" });
+	msi.erase({ "Janos" });
+	msi.erase({ "Hanna" });
+	msi.erase({ "Gabriella" });
+	msi.erase({ "Peter" });
+	msi.erase({ "Nandor" });
+	msi.erase({ "Bence" });
+	msi.erase({ "Benedek" });
+	std::cout << msi;
+
+	//en most csak 5 part fogok beolvasni, mert ennyit is elmeny vegiggepelni
+	std::cin >> msi;
+	std::cin >> msi;
+	std::cin >> msi;
+	std::cin >> msi;
+	std::cin >> msi;
+	std::cout << msi << std::endl;
+
+	int sum = 0;
+	for (const auto p : msi)
+	{
+		sum += p.second;
+	}
+	std::cout << "sum of the (int) elements: " << sum << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "The mis map:" << std::endl;
+	std::map<int, std::string>mis;
+	copyswap(msi, mis);
+	std::cout << mis << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
 }
 
 int main()
 {
 	feladat1vector();
 	feladat1lista();
+	feladat2();
 
 	return 0;
 }
