@@ -324,7 +324,7 @@ void feladat3()
 
 	std::vector<double>copyvector(vektor.size());
 
-	static double avg = sum1 / vektor.size(); //FONTOS,hogy static, mert különben nem használható
+        static double avg = sum1 / vektor.size(); //FONTOS,hogy static, mert különben nem használható
 	copyif(vektor.begin(), vektor.end(), copyvector.begin(), [](double x) -> bool { return x < avg; });
 	std::cout << "Masolt elemes vektor:" << std::endl << copyvector << std::endl;
 	sort(copyvector.begin(), copyvector.end());
