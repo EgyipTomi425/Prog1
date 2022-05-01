@@ -1,9 +1,0 @@
-# depslib dependency file v1.0
-1650986341 source:/home/hallgato/adomfalca/Prog1/ch24/main.cpp
-	<iostream>
-	"Matrix.h"
-
-1650986229 /home/hallgato/adomfalca/Prog1/ch24/Matrix.h
-	<string>
-	<algorithm>
-
