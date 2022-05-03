@@ -43,14 +43,15 @@ grid.set_color(Color::red);
 win.attach(grid);
 
 //képek
-Image nagyrendor1{Point(0,200),"rendorauto200.jpg"};
-win.attach(nagyrendor1);
+Vector_ref<Image> nagyrendor;
+nagyrendor.push_back(new Image{Point(0,200),"rendorauto200.jpg"});
+win.attach(nagyrendor[0]);
 
-Image nagyrendor2{Point(0,400),"rendorauto200.jpg"};
-win.attach(nagyrendor2);
+nagyrendor.push_back(new Image{Point(0,400),"rendorauto200.jpg"});
+win.attach(nagyrendor[1]);
 
-Image nagyrendor3{Point(0,600),"rendorauto200.jpg"};
-win.attach(nagyrendor3);
+nagyrendor.push_back(new Image{Point(0,600),"rendorauto200.jpg"});
+win.attach(nagyrendor[2]);
 
 Image kisrendor{Point(0,0),"rendorauto100.jpg"};
 win.attach(kisrendor);
